@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="custom_download_file_assets" name="assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/custom_download_file/static/src/js/widget.js"></script>
+            </xpath>
+        </template>
+    </data>
+</openerp>
