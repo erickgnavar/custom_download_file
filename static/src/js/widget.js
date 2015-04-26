@@ -12,6 +12,9 @@ openerp.custom_download_file = function (instance, local) {
         },
         download: function () {
             var self = this;
+            if (typeof self.view.datarecord.id === 'undefined') {
+                return;
+            }
             new instance.web.Model('file.dispatcher').call('render', [
                 self.node.attrs['model'], self.view.datarecord.id
             ]).then(function (data) {
