@@ -7,7 +7,7 @@
     'author': 'Erick Navarro',
     'website': 'http://erick.navarro.io',
     'depends': ['base', 'web'],
-    'data': [
-        'assets.xml'
+    'js': [
+        'static/src/js/widget.js'
     ]
 }
