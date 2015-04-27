@@ -1,21 +1,6 @@
 # coding: utf-8
-import base64
 
-from openerp import models, api
-
-
-class ReportReceiver(models.AbstractModel):
-
-    _name = 'file.dispatcher'
-
-    @api.model
-    def render(self, model, record_id):
-        obj = self.env[model]
-        obj.init(record_id)
-        return {
-            'filename': obj.get_filename(),
-            'content': base64.encodestring(obj.get_content())
-        }
+from openerp import models
 
 
 class DownloadFileBaseModel(models.AbstractModel):

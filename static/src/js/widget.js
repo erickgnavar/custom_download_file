@@ -13,19 +13,18 @@ openerp.custom_download_file = function (instance, local) {
         download: function () {
             var self = this;
             self.view.save().then(function () {
-                new instance.web.Model('file.dispatcher').call('render', [
-                    self.node.attrs['model'], self.view.datarecord.id
-                ]).then(function (data) {
-                    var aElement = document.createElement('a');
-                    aElement.setAttribute('href', 'data:application/octet-stream;charset=utf-8;base64,' + data.content);
-                    aElement.setAttribute('target', '_self');
-                    aElement.setAttribute('download', data.filename);
-                    aElement.style.display = 'none';
-                    document.body.appendChild(aElement);
-                    aElement.click();
-                    document.body.removeChild(aElement);
-                }).fail(function (error, event) {
-                    console.error(error, event);
+                var cm = openerp.webclient.crashmanager;
+                openerp.web.blockUI();
+                self.session.get_file({
+                    url: '/custom_download_file/get_file/',
+                    data: {
+                        data: JSON.stringify({
+                            model: self.node.attrs['model'],
+                            record_id: self.view.datarecord.id
+                        })
+                    },
+                    complete: openerp.web.unblockUI,
+                    error: cm.rpc_error.bind(cm)
                 });
             });
         }
