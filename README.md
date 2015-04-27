@@ -2,7 +2,7 @@
 
 Widget for download a customized file
 
-### Extend base model
+## Generic custom file
 
 ```python
 
@@ -23,8 +23,40 @@ class MyFile(models.AbstractModel):
         return 'file_content'
 ```
 
-### Add to form
+```xml
+<widget type="download_button" model="my.file" string="Download this file"/>
+```
+
+
+
+## Excel report example
+
+```python
+
+from StringIO import StringIO
+
+import xlsxwriter
+
+
+class MyExcelReport(models.TransientModel):
+
+    _inherit = 'download.file.base.model'
+    _name = 'my.excel.report'
+
+    def get_filename(self):
+        return 'my_report.xlsx'
+
+    def get_content(self):
+        output = StringIO()
+        wb = xlsxwriter.Workbook(output)
+        sheet = wb.add_worksheet('sheet1')
+        # make something
+        wb.close()
+        output.seek(0)
+        return output.read()
+
+```
 
 ```xml
-    <widget type="download_button" model="my.file" string="Download this file"/>
+<widget type="download_button" model="my.excel.report" string="Download Excel file"/>
 ```
