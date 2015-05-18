@@ -9,6 +9,7 @@ openerp.custom_download_file = function (instance, local) {
         start: function () {
             this._super();
             var className = 'oe_button ' + (this.node.attrs['class'] || '');
+            this.$el.attr('class', '');
             this.$el.append('<button class="' + className + '">' + (this.node.attrs['string'] || _t('Download')) + '</button>');
         },
         download: function () {
