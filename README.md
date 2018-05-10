@@ -1,4 +1,4 @@
-## Custom Download File Odoo module
+# Custom Download File Odoo module
 
 Widget for download a customized file
 
@@ -11,8 +11,8 @@ class MyFile(models.AbstractModel):
     _inherit = 'download.file.base.model'
     _name = 'my.file'
 
-    def init(self, record_id):
-        super(MyFile, self).init(record_id)
+    def setup(self, record_id):
+        super().setup(record_id)
         # initialize values
 
     def get_filename(self):
@@ -24,7 +24,7 @@ class MyFile(models.AbstractModel):
 ```
 
 ```xml
-<widget type="download_button" model="my.file" string="Download this file"/>
+<widget name="custom_download_button" model="my.file" string="Download this file"/>
 ```
 
 
@@ -58,5 +58,5 @@ class MyExcelReport(models.TransientModel):
 ```
 
 ```xml
-<widget type="download_button" model="my.excel.report" string="Download Excel file"/>
+<widget name="custom_download_button" model="my.excel.report" string="Download Excel file"/>
 ```
