@@ -1,35 +1,44 @@
-'use strict';
+odoo.define('custom_download_file.CustomDownloadwidget', function (require) {
+  'use strict';
 
-openerp.custom_download_file = function (instance, local) {
-    var _t = instance.web._t;
-    local.download_button = instance.web.form.FormWidget.extend({
-        events: {
-            'click button.oe_button': 'download'
+  var Widget = require('web.Widget');
+  var WidgetRegistry = require('web.widget_registry');
+  var FieldManagerMixin = require('web.FieldManagerMixin');
+  var _t = require('web.translation')._t;
+
+  var CustomDownloadWidget = Widget.extend(FieldManagerMixin, {
+    events: {
+      'click button': 'download',
+    },
+
+    init: function (parent, model, node) {
+      this._super.apply(this, arguments);
+      this._model = model;
+      this._node = node;
+      FieldManagerMixin.init.call(this);
+    },
+
+    start: function () {
+      this._super.apply(this, arguments);
+      var className = 'btn oe_highlight' + (this._node.attrs['class'] || '');
+      this.$el.append('<button class="' + className + '">' + (this._node.attrs['string'] || _t('Download')) + '</button>');
+    },
+
+    download: function (event) {
+      var self = this;
+
+      // TODO: Call in some way to save method to ensure has fresh data to process
+      $.blockUI();
+      self.model.getSession().get_file({
+        url: '/custom_download_file/get_file/',
+        data: {
+          model: self._node.attrs['model'],
+          record_id: self._model.rec_id,
         },
-        start: function () {
-            this._super();
-            var className = 'oe_button ' + (this.node.attrs['class'] || '');
-            this.$el.attr('class', '');
-            this.$el.append('<button class="' + className + '">' + (this.node.attrs['string'] || _t('Download')) + '</button>');
-        },
-        download: function () {
-            var self = this;
-            self.view.save().then(function () {
-                var cm = openerp.webclient.crashmanager;
-                openerp.web.blockUI();
-                self.session.get_file({
-                    url: '/custom_download_file/get_file/',
-                    data: {
-                        data: JSON.stringify({
-                            model: self.node.attrs['model'],
-                            record_id: self.view.datarecord.id
-                        })
-                    },
-                    complete: openerp.web.unblockUI,
-                    error: cm.rpc_error.bind(cm)
-                });
-            });
-        }
-    });
-    instance.web.form.custom_widgets.add('download_button', 'instance.custom_download_file.download_button');
-};
+        complete: $.unblockUI,
+      });
+    }
+  });
+
+  WidgetRegistry.add('custom_download_button', CustomDownloadWidget);
+});

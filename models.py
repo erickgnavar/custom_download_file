@@ -1,6 +1,4 @@
-# coding: utf-8
-
-from openerp import models
+from odoo import models
 
 
 class DownloadFileBaseModel(models.AbstractModel):
@@ -9,7 +7,7 @@ class DownloadFileBaseModel(models.AbstractModel):
 
     record_id = None
 
-    def init(self, record_id):
+    def setup(self, record_id):
         self.record_id = record_id
 
     def get_filename(self):

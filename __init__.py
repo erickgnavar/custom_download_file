@@ -1,4 +1,2 @@
-# coding: utf-8
-
-from models import *
-from controllers import *
+from .models import *  # NOQA
+from .controllers import *  # NOQA

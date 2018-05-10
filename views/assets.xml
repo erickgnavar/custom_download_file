@@ -2,7 +2,7 @@
 <openerp>
     <data>
         <template id="custom_download_file_assets" name="assets" inherit_id="web.assets_backend">
-            <xpath expr="." position="inside">
+            <xpath expr="//script[last()]" position="after">
                 <script type="text/javascript" src="/custom_download_file/static/src/js/widget.js"></script>
             </xpath>
         </template>

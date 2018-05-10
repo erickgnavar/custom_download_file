@@ -1,3 +1,5 @@
-# coding: utf-8
+from .main import *  # NOQA
 
-import main
+__all__ = [
+    'FileDispatcher',
+]
